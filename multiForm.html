@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>React Multiple Inputs</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      width: 250px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 30px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function FormComponent() {
+      const [formData, setFormData] = React.useState({
+        name: '',
+        email: '',
+        password: ''
+      });
+
+      function handleChange(e) {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }));
+      }
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        alert(`Form Submitted!\nName: ${formData.name}\nEmail: ${formData.email}`);
+        // Reset form
+        setFormData({ name: '', email: '', password: '' });
+      }
+
+      return (
+        <div>
+          <h1>Multiple Inputs Example</h1>
+          <form onSubmit={handleSubmit}>
+            <input 
+              type="text" 
+              name="name" 
+              placeholder="Enter your name" 
+              value={formData.name} 
+              onChange={handleChange} 
+            /><br/>
+
+            <input 
+              type="email" 
+              name="email" 
+              placeholder="Enter your email" 
+              value={formData.email} 
+              onChange={handleChange} 
+            /><br/>
+
+            <input 
+              type="password" 
+              name="password" 
+              placeholder="Enter your password" 
+              value={formData.password} 
+              onChange={handleChange} 
+            /><br/>
+
+            <button type="submit">Submit</button>
+          </form>
+
+          <div className="output">
+            <p>Live Preview:</p>
+            <p>Name: {formData.name}</p>
+            <p>Email: {formData.email}</p>
+            <p>Password: {formData.password}</p>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<FormComponent />);
+    
+  </script>
+</body>
+</html>
